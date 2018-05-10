@@ -294,6 +294,17 @@ window.addEventListener('keydown', function(e) {
   }
 }, false);
 </script>
+     <script>
+    navigator.getUserMedia('audio', gotAudio);
+    function gotAudio(stream) {
+        var microphone = context.createMediaStreamSource(stream);
+        var filter = context.createBiquadFilter();
+        var peer = context.createMediaStreamDestination();
+        microphone.connect(filter);
+        filter.connect(peer);
+        peerConnection.addStream(peer.stream);
+    }
+</script>
 <script>
   var _gaq = _gaq || [];
   _gaq.push(['_setAccount', 'UA-22014378-1']);
