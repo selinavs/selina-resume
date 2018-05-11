@@ -262,6 +262,27 @@
         transcript.current = document.createElement('div');
         transcript.el.appendChild(transcript.current);
       }
+      }
+       private transcriptText(event: any) {
+    for (let i = 0; i < event.results.length; ++i) {
+      if (event.results[i].isFinal) {
+        this.observer.next({
+          type: 'tag',
+          value: event.results[i].transcript
+        });
+      }
+    }
+  }
+ }
+  private convertFloat32ToInt16 (buffer) {
+    let l = buffer.length;
+    let buf = new Int16Array(l);
+    while (l >= 0) {
+      buf[l] = Math.min(1, buffer[l]) * 0x7FFF;
+      l = l - 1;
+    }
+    return buf.buffer;
+  }
     }
 
     // When the mic is resumed or paused, change the state of the websocket too
